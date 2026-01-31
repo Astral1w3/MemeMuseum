@@ -1,0 +1,61 @@
+/* Stile per il footer con la struttura fornita */
+
+/* --- Contenitore Principale della Barra --- */
+.sticky-bar {
+  /* Posizionamento fisso in basso */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Mantiene la barra sopra gli altri contenuti */
+
+  /* Colori e Stile */
+  background-color: var(--secondary-bg); /* Sfondo molto scuro dalla palette */
+  border-top: 1px solid #1B263B; /* Bordo superiore sottile per separazione */
+
+  /*
+   IMPORTANTE: Aggiungi un padding-bottom (es. 60px) al contenitore
+   principale della tua pagina per evitare che il contenuto
+   venga nascosto da questa barra.
+  */
+}
+
+/* --- Contenitore interno per centrare i link --- */
+.sticky-bar-container {
+  display: flex;
+  justify-content: center; /* Centra gli elementi orizzontalmente */
+  align-items: center;    /* Allinea gli elementi verticalmente */
+  height: 60px;             /* Altezza della barra */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* --- Stile per i Link ('fyp' e 'today's best') --- */
+.nav-link {
+  color: #778DA9; /* Colore per il link non attivo (grigio-blu) */
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 600; /* Testo semi-bold per un look moderno */
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+/* --- Stile per il separatore '|' --- */
+.sticky-bar-container p {
+  color: #415A77; /* Un colore meno prominente per il separatore */
+  margin: 0 20px; /* Aggiunge spazio ai lati del separatore */
+  font-size: 18px;
+  user-select: none; /* Impedisce all'utente di selezionare il separatore */
+}
+
+
+/* --- Effetti Interattivi --- */
+
+/* Applica questo stile quando il link è attivo (devi aggiungere la classe 'active' dinamicamente) */
+.nav-link.active {
+  color: #E0E1DD; /* Colore bianco/platino per evidenziarlo */
+}
+
+/* Effetto al passaggio del mouse, ma solo se il link non è già attivo */
+.nav-link:not(.active):hover {
+  color: #c1c2c0; /* Un colore leggermente meno brillante dell'attivo */
+}

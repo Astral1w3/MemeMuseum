@@ -1,0 +1,66 @@
+<div class="login-container">
+    <h2>Log In</h2>
+    
+    <div class="social-login-options">
+        <button type="button" class="base-button btn-social">
+            <img src="/google-icon.svg" alt="Google icon" width="18" height="18">
+            <span>Sign in with Google</span>
+        </button>
+    </div>
+ 
+    <div class="separator">
+        <span>OR</span>
+    </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="handleLogin()">
+        
+        <label for="login-username">Username:</label>
+        <input class="form-input" 
+               type="text" 
+               id="login-username" 
+               placeholder="Enter your username..." 
+               [(ngModel)]="username" 
+               name="username"
+               required>
+
+        <label for="login-email">Email:</label>
+        <input class="form-input" 
+               type="email" 
+               id="login-email" 
+               placeholder="Enter your email..."
+               [(ngModel)]="email" 
+               name="email" 
+               #emailInput="ngModel" 
+               required 
+               email>
+        
+        <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" style="color: red; margin-bottom: 10px; font-size: 0.9em;">
+          <div *ngIf="emailInput.errors?.['required']">L'email è obbligatoria.</div>
+          <div *ngIf="emailInput.errors?.['email']">Inserisci un indirizzo email valido.</div>
+        </div>
+        
+        <label for="login-password">Password:</label>
+        <input class="form-input" 
+               type="password" 
+               id="login-password" 
+               placeholder="Enter your password..."
+               [(ngModel)]="password"
+               name="password" 
+               #passwordInput="ngModel" 
+               required>
+
+        <div class="forgot-password">
+            <a href="#">Forgot Password?</a>
+        </div>
+        
+        <button type="submit" 
+                class="base-button btn-primary" 
+                [disabled]="loginForm.invalid">
+            Log In
+        </button>
+    </form>
+    
+    <p class="signup-prompt">
+        Don't have an account? <a href="#">Sign Up</a>
+    </p>
+</div>

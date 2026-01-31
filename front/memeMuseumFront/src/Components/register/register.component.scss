@@ -1,0 +1,98 @@
+/*----------------------------------------------*/
+/*                  Sign Up Page Specifics      */
+/*----------------------------------------------*/
+
+/* Main container for the sign-up elements */
+.signup-container {
+    background-color: var(--secondary-bg); /* Dark background for the container */
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--primary-shadow);
+    max-width: 500px;
+    margin: 40px auto;
+    color: var(--primary-light-text); /* Light text for dark backgrounds */
+    text-align: center; /* Center align all content */
+}
+
+/* Heading style for the sign-up form */
+.signup-container h2 {
+    color: var(--primary-light-text); /* Light text to stand out on dark background */
+    border-bottom: none; /* Remove the default border for this context */
+    margin-bottom: 25px;
+    font-size: 2.2rem;
+}
+
+/* Container for social login buttons */
+.social-login-options {
+    margin-bottom: 20px;
+}
+
+/* Social login button styles */
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 12px; /* Space between icon and text */
+    background-color: #FFFFFF; /* White background for Google button */
+    color: #4A5568; /* Dark text for contrast */
+    border: 1px solid var(--primary-accent);
+}
+
+.btn-social:hover {
+    background-color: #f7f7f7;
+}
+
+.btn-social svg {
+    fill: currentColor; /* Use the button's text color for the SVG */
+}
+
+/* "OR" separator style */
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: var(--interactive-placeholder-text);
+    margin: 25px 0;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--interactive-bg);
+}
+
+.separator:not(:empty)::before {
+    margin-right: .5em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: .5em;
+}
+
+/* Remove default form background as the container now has it */
+.signup-container form {
+    background-color: transparent;
+    padding: 0;
+    box-shadow: none;
+    margin: 0;
+}
+
+/* Prompt for users who are already registered */
+.login-prompt {
+    margin-top: 25px;
+    font-size: 15px;
+    color: var(--primary-light-text);
+}
+
+.login-prompt a {
+    color: var(--primary-light-text);
+    font-weight: 600;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.login-prompt a:hover {
+    color: #FFFFFF;
+}

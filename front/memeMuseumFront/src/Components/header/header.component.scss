@@ -1,0 +1,66 @@
+.header {
+    background-color: var(--secondary-bg); 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    box-shadow: 0 2px 8px var(--header-shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%; //serve a garantire che l'header rimanga sempre visibile sopra quasi tutti gli altri elementi della pagina.
+    box-sizing: border-box; //a CSS property that changes how an element's total width and height are calculated. 
+}
+
+.header__left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain; //aspect ratio adjusted to be contained in width and height
+    margin-right: 15px;
+    /* filter: invert(1) brightness(1.5); */
+}
+
+.header__center {
+    flex-grow: 1; //searchbar takes all the space 
+    display: flex;
+    justify-content: center;
+    max-width: 600px;
+    margin: 0 20px;
+}
+
+
+.mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    color: #ffff;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.mat-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header {
+        flex-wrap: nowrap;
+        justify-content: space-between; /* Better alignment */
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .logo { width: 50px; height: 50px; }
+}
+
+@media (max-width: 480px) {
+    .header { padding: 10px; }
+    .logo { width: 45px; height: 45px}
+    .mat-icon { font-size: 28px; width: 28px; height: 28px; }
+}
