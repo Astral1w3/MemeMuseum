@@ -1,6 +1,9 @@
-const pgp = require('pg-promise')();
+import pgp from 'pg-promise'
 
-const connectionString = 'postgres://postgres:postgres@localhost:5432/postgres';
-const db = pgp(connectionString);
+const pgpinitializer = pgp();
 
-module.exports = db;
+import { URI } from './index.js'
+
+const db = pgpinitializer(URI);
+
+export default db;
