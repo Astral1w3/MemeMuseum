@@ -14,7 +14,7 @@ export const verifyToken = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.SECRET_ACCESS_TOKEN);
         
-        // serve perche' tutti i controller successivi potranno fare `req.user.id`
+        // serve perche'cosi' tutti i controller successivi potranno fare `req.user.qualcosa`
         req.user = decoded; 
         
         next();

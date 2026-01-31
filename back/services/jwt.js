@@ -11,7 +11,3 @@ export const generateToken = (user) => {
         { expiresIn: '1h' }
     );
 };
-
-export function authenticateToken(req, res, next){
-    
-}

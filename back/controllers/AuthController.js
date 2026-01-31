@@ -2,7 +2,7 @@ import UserRepository from "../repository/UserRepository.js";
 import db from "../config/db.js";
 import pgp from "pg-promise"
 import bcrypt from 'bcrypt';
-import generateToken from '../services/jwt.js'
+import {generateToken} from '../services/jwt.js'
 
 const user = new UserRepository(db, pgp);
 
@@ -52,7 +52,15 @@ export async function login(req, res) {
                     sameSite: 'strict' // Protegge da CSRF il cookie viene inviato solo se la richiesta parte dal tuo stesso sito.
                 });
 
-                res.status(200);
+                res.status(200).json({
+                    status: "success",
+                    message: "login successfull",
+                    user:{
+                        id: foundUser.id,
+                        username: foundUser.username,
+                        email: foundUser.email
+                    }
+                })
             }
             else{
                 res.status(401).json({
@@ -77,3 +85,13 @@ export async function login(req, res) {
     }
 
 }
+
+export function logout(req, res){
+    res.clearCookie('jwt', {
+            httpOnly: true,
+            secure: false, // true in prod
+            sameSite: 'strict'
+        });
+    res.status(200).json({ status: "success", message: "Logged out successfully" });
+}
+

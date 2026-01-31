@@ -2,15 +2,19 @@ import express from 'express';
 import db from '../config/db.js'
 import pgp from 'pg-promise'
 import { check } from "express-validator"
-import { register, login } from '../controllers/AuthController.js'
+import { register, login, logout } from '../controllers/AuthController.js'
 import Validate from '../middleware/Validate.js'
 import UserRepository from '../repository/UserRepository.js'
+import { verifyToken } from '../middleware/AuthMiddleware.js';
 
 const router = express.Router();
 
 const user = new UserRepository(db, pgp);
 
 router.get('/login', async (req, res)=>{
+    check("email").isEmail().normalizeEmail(),
+    check("password").notEmpty(),
+    Validate,
     login
 })
 
@@ -33,7 +37,14 @@ router.post( "/register",
     register //UserRepository function
 );
 
+router.post('/logout', logout)
 
+router.get('/me', verifyToken, (req, res) => {
+    res.status(200).json({
+        status: "success",
+        user: req.user //verifytoken rende accessibile req.user
+    });
+});
 
 
 export default router;
