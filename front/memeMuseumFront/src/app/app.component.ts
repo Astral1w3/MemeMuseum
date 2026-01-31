@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "../Components/header/header.component";
 import { FooterComponent } from "../Components/footer/footer.component";
+import { AuthService } from '../Services/AuthService/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,15 @@ import { FooterComponent } from "../Components/footer/footer.component";
   styleUrl: './app.component.scss'
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'memeMuseumFront';
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    // Appena l'app parte, chiediamo al backend: "Sono loggato?"
+    this.authService.checkSession().subscribe({
+      error: () => console.log("No session active")
+    });
+  }
 }

@@ -1,11 +1,29 @@
 <header class="header">
     <div class="header__left">
-        <img src="logo.png" alt="Company Logo" class="logo"/>
+        <img src="logo.png" alt="MemeMuseum Logo" class="logo" routerLink="/"/>
     </div>
+    
     <div class="header__center">
         <app-searchbar></app-searchbar>
     </div>
+    
     <div class="header__right">
-        <mat-icon aria-label="profile page" fontIcon="person" (click)="handleProfileIconClick()"></mat-icon>
+        <div *ngIf="!isAuthenticated" class="auth-links">
+            <a routerLink="/login" class="nav-link">Login</a>
+            <a routerLink="/register" class="nav-btn">Register</a>
+        </div>
+
+        <div *ngIf="isAuthenticated" class="user-profile">
+            <span class="welcome-text">Hello, {{ currentUser?.username }}!</span>
+            
+            <mat-icon 
+                aria-label="profile page" 
+                fontIcon="person" 
+                (click)="handleProfileIconClick()"
+                class="profile-icon">
+            </mat-icon>
+            
+            <button (click)="logout()" class="logout-btn">Logout</button>
+        </div>
     </div>
 </header>

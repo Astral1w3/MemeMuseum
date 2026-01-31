@@ -11,7 +11,7 @@ const router = express.Router();
 
 const user = new UserRepository(db, pgp);
 
-router.get('/login', async (req, res)=>{
+router.post('/login', async (req, res)=>{
     check("email").isEmail().normalizeEmail(),
     check("password").notEmpty(),
     Validate,

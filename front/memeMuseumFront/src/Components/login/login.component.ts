@@ -1,25 +1,35 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';   
+import { AuthService } from '../../Services/AuthService/auth.service';
+import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule], 
+  imports: [CommonModule, FormsModule, RouterModule], 
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  username = '';
   email = '';
   password = '';
+  errorMessage = '';
 
-  handleLogin() {
-    console.log('Login attempt:', { 
-        username: this.username, 
-        email: this.email, 
-        password: this.password 
+  constructor(private authService: AuthService, private router: Router) {}
+
+  onSubmit() {
+    this.authService.login(this.email, this.password).subscribe({
+      next: (response) => {
+        // Login riuscito -> vai alla home
+        console.log("Login Success!");
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        console.error("Login Error", err);
+        this.errorMessage = "Email or password are wrong.";
+      }
     });
-    // Qui inserisci la chiamata al tuo servizio di autenticazione
   }
 }

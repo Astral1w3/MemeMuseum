@@ -38,7 +38,7 @@ export async function register(req, res) {
 }
 
 export async function login(req, res) {
-    const {username, email, password} = req.body;
+    const {email, password} = req.body;
     try{
         const foundUser = await user.findByEmail(email);
         if(foundUser){
@@ -74,7 +74,7 @@ export async function login(req, res) {
             })
         }
     }
-    catch{
+    catch(err){
         console.error(err);
         res.status(500).json({
             status: "error",
