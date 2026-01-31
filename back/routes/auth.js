@@ -2,8 +2,8 @@ import express from 'express';
 import db from '../config/db.js'
 import pgp from 'pg-promise'
 import { check } from "express-validator"
-import { register } from '../controllers/auth.js'
-import Validate from '../middleware/validate.js'
+import { register, login } from '../controllers/AuthController.js'
+import Validate from '../middleware/Validate.js'
 import UserRepository from '../repository/UserRepository.js'
 
 const router = express.Router();
@@ -11,8 +11,7 @@ const router = express.Router();
 const user = new UserRepository(db, pgp);
 
 router.get('/login', async (req, res)=>{
-    const result = await user.findById(1);
-    res.send(result);
+    login
 })
 
 //express-validator middlewares
