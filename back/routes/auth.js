@@ -11,12 +11,12 @@ const router = express.Router();
 
 const user = new UserRepository(db, pgp);
 
-router.post('/login', async (req, res)=>{
+router.post('/login', 
     check("email").isEmail().normalizeEmail(),
-    check("password").notEmpty(),
+    check("password").not().isEmpty(),
     Validate,
-    login
-})
+    login 
+);
 
 //express-validator middlewares
 router.post( "/register",
