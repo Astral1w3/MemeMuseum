@@ -8,7 +8,7 @@ export const authGuard = () => {
   const router = inject(Router);
 
   return authService.currentUser$.pipe(
-    take(1), // prendi solo il valore attuale e chiudi (non restare in ascolto infinito)
+    take(1), // prendi solo il valore attuale e chiudi (non restare in ascolto all'infinito)
     map(user => {
       if (user) {
         return true;
