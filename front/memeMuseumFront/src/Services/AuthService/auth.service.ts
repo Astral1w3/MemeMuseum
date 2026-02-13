@@ -11,10 +11,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  // Questo tiene traccia dell'utente corrente. Inizia come null (nessuno loggato)
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   
-  // I componenti si iscriveranno a questo observable per sapere chi è loggato
+  // i componenti si iscrivono a questo observable per vedere se un utente e' loggato o meno
+  // facciamo il cast come Observable perche' cosi' e' read only
   public currentUser$ = this.currentUserSubject.asObservable();
   
   register(user: User) {
@@ -22,15 +22,15 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.http.post<any>( //modo standard di fare una chiamata API any significa "mi aspetto che il server risponda con un oggetto uqalsiasi"
+    return this.http.post<any>(
       `${this.baseUrl}/login`,
-      {email, password }, //converte automaticamente in json prima di inviare
-      {withCredentials: true} //serve per inviare i cookie ad ogni richiesta e se il server risponde con set-cookie, salva anche quello ricevuto
+      { email, password }, // converte in json da solo
+      { withCredentials: true } // usiamo i cookie
     ).pipe(
-      // 'tap' mi permettere di leggere i dati che passano e farci qualcosa senza modificarli, in questo caso voglio aggiornare lo stato globale
+      // tap permette di leggere i dati dallo stream, si mette in mezzo, senza modificare lo stream
       tap((response) => {
         if(response.status === 'success') {
-          // Aggiorniamo lo stato globale dell'app
+          //se l'utente e' loggato settiamolo come utente corrente
           this.currentUserSubject.next(response.user);
         }
       })
@@ -51,19 +51,23 @@ export class AuthService {
 
   checkSession() {
     return this.http.get<any>(
-      `${this.baseUrl}/me`, //invia una richiesta di tipo get al server per vedere se il cookie e' ancora valido
+      `${this.baseUrl}/me`, // mandiamo una get request per vedere se l'utente e' valido tramite il cookie
       { withCredentials: true }
     ).pipe(
       tap({
-        next: (response) => { //se il server ha trovato il cookie allora registriamolo  come utente corrente
-          this.currentUserSubject.next(response.user);
+        next: (response) => { 
+            // in caso di risposta affermativa settiamo il current user
+            this.currentUserSubject.next(response.user);
         },
         error: () => {
-          this.currentUserSubject.next(null); //se il cookie non c'e' allora ci sloggiamo
+            // viceversa facciamo logout
+            this.currentUserSubject.next(null); 
         }
       })
     );
   }
 
-
+  public get currentUserValue(): User | null {
+    return this.currentUserSubject.value;
+  }
 }

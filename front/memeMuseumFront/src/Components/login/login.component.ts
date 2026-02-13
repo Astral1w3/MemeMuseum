@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';   
 import { AuthService } from '../../Services/AuthService/auth.service';
-import { RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +21,7 @@ export class LoginComponent {
   onSubmit() {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
-        // Login riuscito -> vai alla home
+        // login riuscito -> vai alla home
         console.log("Login Success!");
         this.router.navigate(['/']);
       },

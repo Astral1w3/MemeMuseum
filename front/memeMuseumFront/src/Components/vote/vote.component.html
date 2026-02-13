@@ -1,0 +1,19 @@
+<div class="vote-pill">
+  <button 
+    class="btn-vote up" 
+    [class.active]="userVote === 1" 
+    (click)="vote($event, 1)">
+    ⬆
+  </button>
+  
+  <span class="score" [ngClass]="{'orange': userVote === 1, 'blue': userVote === -1}">
+    {{ voteSum || 0 }}
+  </span>
+  
+  <button 
+    class="btn-vote down" 
+    [class.active]="userVote === -1" 
+    (click)="vote($event, -1)">
+    ⬇
+  </button>
+</div>

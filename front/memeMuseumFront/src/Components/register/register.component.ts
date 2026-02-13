@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../Services/AuthService/auth.service';
 import { User } from '../../models/user.model'
+import { Router} from '@angular/router'; 
 
 @Component({
   selector: 'app-register',
@@ -11,9 +12,7 @@ import { User } from '../../models/user.model'
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  constructor(private authService: AuthService){
-
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   username: string = "";
   email: string = "";
@@ -30,10 +29,11 @@ export class RegisterComponent {
 
     this.authService.register(usr).subscribe({
       next: (response) => {
-        console.log("ok", response)
+        console.log("Registration successful", response); 
+        this.router.navigate(['/login']);
       },
       error: (err) => {
-        console.error('errore: ', err)
+        console.error('Error: ', err); 
       }
     })
   }

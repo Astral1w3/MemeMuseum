@@ -4,26 +4,30 @@
     </div>
     
     <div class="header__center">
-        <app-searchbar></app-searchbar>
+        <h1 class="brand-title">MEME MUSEUM</h1>
     </div>
     
     <div class="header__right">
-        <div *ngIf="!isAuthenticated" class="auth-links">
-            <a routerLink="/login" class="nav-link">Login</a>
-            <a routerLink="/register" class="nav-btn">Register</a>
-        </div>
+        <ng-container *ngIf="user$ | async as user; else guest">
+            <div class="user-profile">
+                <span class="username">{{ user.username }}</span>
+                
+                <mat-icon 
+                    aria-label="profile page" 
+                    fontIcon="person" 
+                    (click)="handleProfileIconClick()"
+                    class="action-icon">
+                </mat-icon>
+                
+                <button (click)="logout()" class="btn-text">Logout</button>
+            </div>
+        </ng-container>
 
-        <div *ngIf="isAuthenticated" class="user-profile">
-            <span class="welcome-text">Hello, {{ currentUser?.username }}!</span>
-            
-            <mat-icon 
-                aria-label="profile page" 
-                fontIcon="person" 
-                (click)="handleProfileIconClick()"
-                class="profile-icon">
-            </mat-icon>
-            
-            <button (click)="logout()" class="logout-btn">Logout</button>
-        </div>
+        <ng-template #guest>
+            <div class="auth-links">
+                <a routerLink="/login" class="btn btn-ghost">Login</a>
+                <a routerLink="/register" class="btn btn-primary">Sign Up</a>
+            </div>
+        </ng-template>
     </div>
 </header>

@@ -17,7 +17,7 @@ export class AppComponent implements OnInit{
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    // Appena l'app parte, chiediamo al backend: "Sono loggato?"
+    // appena parte l'app, chiediamo al backend: "sono loggato?"
     this.authService.checkSession().subscribe({
       error: () => console.log("No session active")
     });

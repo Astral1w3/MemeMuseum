@@ -1,0 +1,46 @@
+<div class="sidebar-container">
+  
+  <ng-container *ngIf="user; else guestTemplate">
+    <div class="profile-header">
+      <div class="avatar-circle">
+        {{ user.username.charAt(0).toUpperCase() }}
+      </div>
+      <div class="user-info">
+        <span class="username">{{ user.username }}</span>
+        <span class="email">{{ user.email }}</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a routerLink="/upload" class="menu-item">
+        <span>➕ New Post</span>
+      </a>
+      <a routerLink="/my-comments" class="menu-item">
+        <span>💬 My Comments</span>
+      </a>
+      <a routerLink="/settings" class="menu-item">
+        <span>⚙️ Settings</span>
+      </a>
+    </nav>
+  </ng-container>
+
+  <ng-template #guestTemplate>
+    <div class="profile-header">
+      <div class="avatar-circle">
+        G
+      </div>
+      <div class="user-info">
+        <span class="username">Guest </span>
+      </div>
+    </div>
+  </ng-template>
+
+  <hr class="separator">
+
+  <app-filters></app-filters>
+
+  <div class="footer">
+    © 2026 MemeMuseum
+  </div>
+
+</div>

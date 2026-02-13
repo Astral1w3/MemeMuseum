@@ -1,2 +1,49 @@
-<!DOCTYPE html>
-<p>home works!</p>
+<ng-container *ngIf="{ current: user$ | async } as auth">
+
+  <!-- quando non hai effettutato il login vedi solo i post e la possibilita' di modificare ii filtri, quando invece sei loggato
+       vedi anche una colonna per caricare i post, vedere i commenti ecc.. binding di classe condizionale
+       ovvero aggiungi guest-layout solo se auth.current e' vero (sei loggato)
+   -->
+  <div class="main-layout" > 
+    
+    <main class="feed-container">
+      <div class="posts-grid">
+         <!-- un ciclo per generare la lista dei posts che contengono i meme, per ogni oggetto dell'array 
+           crea una copia del componente app-post-card, con [post]="post" passiamo i dati dell'array tramite @Input() post
+           trackedby serve per identificare gli oggetti per aggiornare il dom nel modo corretto (non distruggere e aggiungere ogni votla tutti i post)
+         -->
+        <app-post-card 
+          *ngFor="let post of posts; trackBy: trackByPostId" 
+          [post]="post">
+        </app-post-card>
+      </div>
+
+      <div class="feed-status">
+        <div *ngIf="isLoading" class="loading-spinner">
+          <span>Loading memes...</span>
+        </div>
+
+        <div *ngIf="!hasMorePosts && posts.length > 0" class="end-message">
+          🎉 You're all caught up!
+        </div>
+        
+        <div *ngIf="!isLoading && posts.length === 0" class="empty-message">
+          No memes found.
+        </div>
+      </div>
+      <!-- serve per l'infinite scroll, lo utilizziamo per agganciare l'IntersectionObserver con @ViewChild('scrollAnchor')
+           appena questo div diventa "visibile" scarica la prossima pagina di meme-->
+      <div #scrollAnchor style="height: 20px; width: 100%;"></div>
+
+    </main>
+
+    <!-- aside e' un div meno importante serve per le informazioni secondarie-->
+    <aside class="sidebar-wrapper" >
+      <app-sidebar
+        [user]="auth.current">
+      </app-sidebar>
+    </aside>
+
+  </div>
+
+</ng-container>

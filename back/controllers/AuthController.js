@@ -6,10 +6,10 @@ import {generateToken} from '../services/jwt.js'
 
 const user = new UserRepository(db, pgp);
 
+const isProduction = process.env.NODE_ENV === 'production'; //i need it because i want some feature to be disabled when im testing like sameSite to lax and Secure.
+
 export async function register(req, res) {
     const {username, email, password} = req.body;
-    const saltRounds = 10;
-    const hashedPasword = await bcrypt.hash(password, saltRounds)
     try{
         if(await user.checkIfUserExistByEmail(email)){
             return res.status(400).json({
@@ -18,6 +18,9 @@ export async function register(req, res) {
                 message: "It seems you already have an account, please log in instead.",
             });
         }else{
+            const saltRounds = 10;
+            const hashedPasword = await bcrypt.hash(password, saltRounds)
+
             const savedUser = await user.createUser(username, email, hashedPasword);
             res.status(200).json({
                 status: "success",
@@ -38,44 +41,39 @@ export async function register(req, res) {
 }
 
 export async function login(req, res) {
-    const {email, password} = req.body;
-    try{
+    const { email, password } = req.body;
+
+    try {
         const foundUser = await user.findByEmail(email);
-        if(foundUser){
-            if(await bcrypt.compare(password, foundUser.password)){
-                const token = generateToken(foundUser);
 
-                res.cookie("jwt", token, {
-                    httpOnly: true,    // Protegge da XSS
-                    secure: false,     // per HTTPS
-                    maxAge: 3600000,   
-                    sameSite: 'strict' // Protegge da CSRF il cookie viene inviato solo se la richiesta parte dal tuo stesso sito.
-                });
+        //if the user doesn't exist or the credentaial are wrong we stop everything
+        if (!foundUser || !(await bcrypt.compare(password, foundUser.password))) {
+            return res.status(401).json({
+                status: "failed",
+                message: "Invalid credentials" 
+            });
+        }
 
-                res.status(200).json({
-                    status: "success",
-                    message: "login successfull",
-                    user:{
-                        id: foundUser.id,
-                        username: foundUser.username,
-                        email: foundUser.email
-                    }
-                })
+        const token = generateToken(foundUser);
+
+        res.cookie("jwt", token, {
+            httpOnly: true,    
+            secure: isProduction,
+            maxAge: 3600000,   
+            sameSite: isProduction ? 'strict' : 'lax' 
+        });
+
+        res.status(200).json({
+            status: "success",
+            message: "Login successful", 
+            user: {
+                id: foundUser.id,
+                username: foundUser.username,
+                email: foundUser.email
             }
-            else{
-                res.status(401).json({
-                    message: "Check if the inserted data are correct"
-                })
-            }
-        }
-        else{
-            res.status(401).json({
-                message: "Check if the inserted data are correct"
-            })
-        }
-    }
-    catch(err){
-        console.error(err);
+        });
+    } catch (err) {
+        console.error("Login Error:", err); 
         res.status(500).json({
             status: "error",
             code: 500,
@@ -83,15 +81,15 @@ export async function login(req, res) {
             message: "Internal Server Error",
         });
     }
-
 }
 
 export function logout(req, res){
     res.clearCookie('jwt', {
-            httpOnly: true,
-            secure: false, // true in prod
-            sameSite: 'strict'
+            httpOnly: true,    
+            secure: isProduction,
+            sameSite: isProduction ? 'strict' : 'lax' 
         });
+        
     res.status(200).json({ status: "success", message: "Logged out successfully" });
 }
 

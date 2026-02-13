@@ -1,0 +1,19 @@
+<div class="tags-wrapper" [class.disabled]="tags.length >= maxTags">
+  
+  <span *ngFor="let tag of tags; let i = index" class="tag-chip">
+    #{{ tag }}
+    <button type="button" (click)="removeTag(i)">×</button>
+  </span>
+
+  <input 
+    type="text" 
+    [(ngModel)]="inputValue" 
+    (keydown.enter)="addTag($event)" 
+    [placeholder]="tags.length >= maxTags ? 'Max tags reached' : placeholder"
+    [disabled]="tags.length >= maxTags"
+    class="tag-input-field"
+  >
+</div>
+<div class="tag-counter" *ngIf="maxTags < 99">
+    <small>{{ tags.length }}/{{ maxTags }} tags</small>
+</div>

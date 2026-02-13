@@ -1,0 +1,45 @@
+<div class="comments-wrapper">
+  
+  <h3 class="comments-title">Comments <span class="count">({{ comments.length }})</span></h3>
+
+  <div *ngIf="user$ | async as user; else guestBlock" class="comment-form">
+    <textarea 
+      [(ngModel)]="newCommentText" 
+      placeholder="What are your thoughts, {{ user.username }}?"
+      rows="3">
+    </textarea>
+
+    <div class="form-actions">
+      <button 
+        (click)="submitComment()" 
+        [disabled]="!newCommentText.trim() || isSubmitting"
+        class="btn-submit">
+        {{ isSubmitting ? 'Posting...' : 'Comment' }}
+      </button>
+    </div>
+  </div>
+
+  <ng-template #guestBlock>
+    <div class="guest-banner">
+      <p>Log in or sign up to leave a comment</p>
+    </div>
+  </ng-template>
+
+  <div class="comments-list">
+    <div *ngIf="isLoading" class="loading-text">Loading comments...</div>
+
+    <div *ngFor="let comment of comments" class="comment-item">
+      <div class="comment-meta">
+        <span class="author">u/{{ comment.username }}</span>
+        <span class="dot">•</span>
+        <span class="date">{{ comment.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+      <p class="comment-body">{{ comment.body }}</p>
+    </div>
+
+    <div *ngIf="!isLoading && comments.length === 0" class="empty-state">
+      No comments yet. Be the first to share your thoughts!
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,77 @@
+<div class="upload-container">
+  <div class="glass-panel">
+    
+    <div class="panel-header">
+      <h2>New Meme Drop</h2>
+    </div>
+
+    <div class="panel-body">
+      
+      <div class="media-column">
+        <div 
+          class="drop-zone" 
+          [class.dragging]="isDragging" 
+          [class.has-content]="previewUrl"
+          (dragover)="onDragOver($event)" 
+          (dragleave)="onDragLeave($event)" 
+          (drop)="onDrop($event)"
+          (click)="fileInput.click()"
+        >
+          <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*,video/*" hidden>
+          
+          <div *ngIf="!previewUrl" class="placeholder-content">
+            <div class="icon-circle">
+              <span>+</span>
+            </div>
+            <h3>Drag & Drop</h3>
+            <p>Images or Videos up to 50MB</p>
+          </div>
+
+          <ng-container *ngIf="previewUrl">
+            <img *ngIf="fileType === 'image'" [src]="previewUrl" class="preview-media">
+            <video *ngIf="fileType === 'video'" [src]="previewUrl" class="preview-media" controls autoplay muted loop></video>
+            
+            <div class="change-overlay">
+              <span>Change Media</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="details-column">
+        <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+          
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" formControlName="title" placeholder="Make it funny...">
+            <div class="char-count">{{uploadForm.get('title')?.value?.length || 0}}/100</div>
+          </div>
+
+          <div class="form-group">
+            <label>Caption <span class="optional">(Optional)</span></label>
+            <textarea formControlName="caption" rows="4" placeholder="Context, credits, or rants..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Tags</label>
+            <app-tag-input 
+              [tags]="tags"
+              [maxTags]="5"
+              placeholder="Add tag + Enter"
+              (tagsChange)="onTagsUpdated($event)">
+            </app-tag-input>
+          </div>
+
+          <div class="actions">
+            <button type="button" class="btn-ghost" routerLink="/">Cancel</button>
+            <button type="submit" class="btn-primary" [disabled]="uploadForm.invalid || !selectedFile || isUploading">
+              {{ isUploading ? 'Uploading ' + uploadProgress + '%' : 'Post Meme' }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>  

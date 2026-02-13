@@ -1,219 +1,284 @@
-//----------------------------------------------
-//                  Global Variables / Design Tokens
-//----------------------------------------------
+/* -------------------------------------------------------------------------- */
+/* 1. CSS VARIABLES (BASE THEME)   */
+/* -------------------------------------------------------------------------- */
 :root {
-    /* Main Palette - Light Theme */
-    --primary-bg: #ffffff;
-    --secondary-bg: #0D1B2A; /* Used for dark containers like forms, headers, footers */
-    --primary-dark-text: #0D1B2A; /* Main text color for light backgrounds */
-    --primary-light-text: #E0E1DD; /* Main text color for dark backgrounds */
-    --primary-accent: #415A77; /* An accent color, can be used for links or borders */
-    --primary-shadow: rgba(13, 27, 42, 0.4);
+  /* --- BACKGROUNDS --- */
+  --bg-body: #000000;         /* True Black */
+  --bg-card: #121212;         /* Very Dark Gray */
+  --bg-hover: #1e1e1e;        /* Slightly lighter */
+  --bg-input: #262626;        /* Input fields */
 
-    /* Interactive Elements Palette */
-    --interactive-bg: #415A77;
-    --interactive-bg-hover: #5a7696;
-    --interactive-placeholder-text: #778DA9;
+  /* --- TEXT --- */
+  --text-primary: #F5F5F5;    /* Almost White */
+  --text-secondary: #A8A8A8;  /* Muted Gray */
+  --text-accent: #8b5cf6;     
 
-    /* Button Palette */
-    --button-primary-text-color: #FFFFFF;
-    
-    --button-secondary-border: var(--interactive-bg);
-    --button-secondary-hover-bg: rgba(65, 90, 119, 0.1); /* Adjusted alpha for light bg */
+  /* --- BRANDING (Nuovo per Auth) --- */
+  --brand-gradient: linear-gradient(135deg, #3c69b8 0%, #8b5cf6 100%); /* Blue-Purple Gradient */
 
-    --button-danger-bg: #9d2f2f;
-    --button-danger-hover-bg: #b54747;
+  /* --- BORDERS & SEPARATORS --- */
+  --border-subtle: #262626;   
+  --border-focus: #555555;    
+  --border-color: #333333;    /* Alias per compatibilità */
 
-    --button-disabled-bg: #a9b4c2;
-    --button-disabled-text: #606d80;
+  /* --- SHADOWS --- */
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+
+  /* --- SIZES --- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --container-width: 935px;   
 }
 
-
-//----------------------------------------------
-//                  Base & Reset Styles
-//----------------------------------------------
+/* -------------------------------------------------------------------------- */
+/* 2. RESET & BASE                                     */
+/* -------------------------------------------------------------------------- */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-    height: 100%;
 }
 
 body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: var(--primary-bg);
-    color: var(--primary-dark-text); /* Default text color is now dark */
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
-
-//----------------------------------------------
-//                  Typography (h1, h2, h3)
-//----------------------------------------------
-h1, h2, h3 {
-    font-family: inherit;
-    line-height: 1.3;
-    margin-top: 24px;
-    margin-bottom: 16px;
-    color: var(--primary-dark-text); /* Headings are dark by default */
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s;
 }
 
-h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
+ul { list-style: none; }
+/* -------------------------------------------------------------------------- */
+/* 3. LAYOUT HOME (FEED)          */
+/* -------------------------------------------------------------------------- */
+.main-layout {
+  display: grid;
+  /* Default: Layout a 2 colonne (Feed + Sidebar) */
+  grid-template-columns: 1fr 320px; 
+  gap: 30px;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 30px 20px;
+
+  /* --- VARIANTE: GUEST MODE (Sloggato) --- */
+  /* Questa classe viene aggiunta da Angular quando !user */
+  &.guest-layout {
+    /* Diventa una colonna sola */
+    grid-template-columns: 1fr; 
+    
+    /* Restringiamo la larghezza per renderlo leggibile (stile TikTok/Reels feed) */
+    max-width: 600px; 
+    
+    /* Centriamo il blocco nella pagina */
+    margin: 0 auto; 
+    
+    /* (Opzionale) Se vuoi che il feed sia più stretto delle card normali */
+    .feed-container {
+       width: 100%;
+    }
+  }
+
+  /* --- RESPONSIVE MOBILE --- */
+  @media (max-width: 850px) {
+    grid-template-columns: 1fr; /* Mobile: Colonna singola forzata */
+    
+    .sidebar-wrapper {
+      display: none; /* Nascondi sidebar su mobile */
+    }
+  }
 }
 
-h2 {
-    font-size: 2rem;
-    font-weight: 600;
-    border-bottom: 2px solid var(--interactive-bg);
-    padding-bottom: 8px;
+/* -------------------------------------------------------------------------- */
+/* 4. COMPONENTI HOME (Bottoni e Form base)            */
+/* -------------------------------------------------------------------------- */
+
+/* Bottoni standard (usati in Header e Sidebar) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-size: 0.9rem;
+
+  &.btn-primary {
+    background-color: var(--text-accent);
+    color: #000;
+    
+    &:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+  }
+
+  &.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    &:hover { color: var(--text-primary); }
+  }
 }
 
-h3 {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: #4A5568; /* A slightly lighter dark color for hierarchy */
-}
-
-
-//----------------------------------------------
-//                  Form Container
-//----------------------------------------------
-form {
-    background-color: var(--secondary-bg); /* Dark background for the form */
-    padding: 30px 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px var(--primary-shadow);
-    max-width: 500px;
-    margin: 40px auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-
-//----------------------------------------------
-//                  Labels
-//----------------------------------------------
-label {
+/* Form Group base */
+.form-group {
+  margin-bottom: 16px;
+  text-align: left;
+  
+  label {
     display: block;
-    color: var(--primary-light-text); /* Light text for the dark form background */
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: -8px;
-}
-
-
-//----------------------------------------------
-//                  Form Inputs
-//----------------------------------------------
-.form-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--interactive-bg);
-    border-radius: 5px;
-    background-color: var(--interactive-bg);
-    color: var(--primary-light-text); /* Light text for inside the input */
-    font-size: 16px;
-    font-family: inherit;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-input::placeholder {
-    color: var(--interactive-placeholder-text);
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: var(--primary-accent);
-    box-shadow: 0 0 8px rgba(224, 225, 221, 0.2);
-}
-
-
-//----------------------------------------------
-//                  Buttons
-//----------------------------------------------
-.base-button {
-    padding: 12px 24px;
-    font-family: inherit;
-    font-size: 16px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
     font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.1s ease;
-    user-select: none;
-    display: inline-block;
-}
-
-/* --- Variation: Primary Button (Main Action) --- */
-.btn-primary {
-    background-color: var(--interactive-bg);
-    border-color: var(--interactive-bg);
-    color: var(--button-primary-text-color);
-}
-
-.btn-primary:hover {
-    background-color: var(--interactive-bg-hover);
-    border-color: var(--interactive-bg-hover);
-}
-
-/* --- Variation: Secondary Button (Outline) --- */
-.btn-secondary {
-    background-color: transparent;
-    border-color: var(--button-secondary-border);
-    color: var(--primary-dark-text); /* Dark text for light backgrounds */
-}
-
-.btn-secondary:hover {
-    background-color: var(--button-secondary-hover-bg);
-}
-
-/* --- Variation: Danger Button (Destructive Actions) --- */
-.btn-danger {
-    background-color: var(--button-danger-bg);
-    border-color: var(--button-danger-bg);
-    color: var(--button-primary-text-color);
-}
-
-.btn-danger:hover {
-    background-color: var(--button-danger-hover-bg);
-    border-color: var(--button-danger-hover-bg);
+  }
 }
 
 
-//----------------------------------------------
-//                  Button States
-//----------------------------------------------
-.base-button:active {
-    transform: scale(0.98);
+/* -------------------------------------------------------------------------- */
+/* 5. NUOVI STILI PER LOGIN & REGISTER (Auth)          */
+/* -------------------------------------------------------------------------- */
+
+/* Contenitore Card per Login/Register */
+.auth-container {
+  background-color: var(--bg-card);
+  padding: 40px;
+  border-radius: var(--radius-md);
+  max-width: 450px;
+  margin: 60px auto; /* Centrato verticalmente */
+  text-align: center;
+  
+  /* Bordo sottile e ombra */
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  
+  /* Linea colorata in alto (Gradient) */
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--brand-gradient);
+  }
+
+  h2 {
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    font-weight: 700;
+  }
 }
 
-.base-button:focus-visible {
-    outline: 2px solid var(--primary-accent);
-    outline-offset: 2px;
-}
-.base-button:focus {
+/* Input migliorati per Auth */
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  font-family: inherit;
+
+  &::placeholder {
+    color: #555;
+  }
+
+  &:focus {
     outline: none;
+    border-color: #8b5cf6; /* Viola del brand */
+    background-color: #262626;
+  }
 }
 
-.base-button:disabled,
-.base-button[disabled] {
-    background-color: var(--button-disabled-bg);
-    border-color: var(--button-disabled-bg);
-    color: var(--button-disabled-text);
-    cursor: not-allowed;
-    transform: none;
+/* Bottoni grandi per Auth */
+.base-button {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s, transform 0.1s;
+  
+  &:active { transform: scale(0.98); }
+  
+  &.btn-primary {
+    background: var(--brand-gradient);
+    color: #fff;
+    &:hover { opacity: 0.9; }
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+  }
 }
 
-.base-button:disabled:hover,
-.base-button[disabled]:hover {
-    background-color: var(--button-disabled-bg);
-    border-color: var(--button-disabled-bg);
+/* Bottone Social (Google) */
+.btn-social {
+  background-color: #ffffff;
+  color: #171717;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+/* Separatore OR */
+.separator {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+  margin: 24px 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+  
+  span { padding: 0 16px; }
+}
+
+/* Link in basso */
+.auth-links-bottom {
+  margin-top: 24px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  
+  a {
+    color: #8b5cf6;
+    font-weight: 600;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+/* Messaggi errore form */
+.error-msg {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 6px;
+  text-align: left;
 }

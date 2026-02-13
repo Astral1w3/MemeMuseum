@@ -1,0 +1,45 @@
+<div class="filters-container">
+  
+  <div class="section-label">FILTER BY TAGS</div>
+  <div class="filter-row">
+    <app-tag-input 
+      [tags]="selectedTags" 
+      [maxTags]="5" 
+      placeholder="Meme tags..."
+      (tagsChange)="updateTags($event)">
+    </app-tag-input>
+  </div>
+
+  <div class="section-label">TIME FRAME</div>
+  <div class="filter-row">
+    <select [(ngModel)]="selectedTime" class="filter-select">
+      <option value="all">All Time</option>
+      <option value="today">Today</option>
+      <option value="week">This Week</option>
+      <option value="month">This Month</option>
+    </select>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section-label">SORTING</div>
+  
+  <div class="filter-row">
+    <select [(ngModel)]="selectedSort" class="filter-select">
+      <option value="date">Upload Date</option>
+      <option value="score">Score (Votes)</option>
+    </select>
+  </div>
+
+  <div class="filter-row">
+    <select [(ngModel)]="selectedOrder" class="filter-select">
+      <option value="DESC">⬇ High to Low (Desc)</option>
+      <option value="ASC">⬆ Low to High (Asc)</option>
+    </select>
+  </div>
+
+  <button class="btn-apply" (click)="applyFilters()">
+    Apply Filters
+  </button>
+
+</div>

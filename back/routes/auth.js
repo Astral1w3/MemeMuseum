@@ -5,7 +5,7 @@ import { check } from "express-validator"
 import { register, login, logout } from '../controllers/AuthController.js'
 import Validate from '../middleware/Validate.js'
 import UserRepository from '../repository/UserRepository.js'
-import { verifyToken } from '../middleware/AuthMiddleware.js';
+import { authGuard } from '../middleware/AuthMiddleware.js';
 
 const router = express.Router();
 
@@ -39,10 +39,10 @@ router.post( "/register",
 
 router.post('/logout', logout)
 
-router.get('/me', verifyToken, (req, res) => {
+router.get('/me', authGuard(false), (req, res) => {
     res.status(200).json({
         status: "success",
-        user: req.user //verifytoken rende accessibile req.user
+        user: req.user //verifytoken make req.user accessible
     });
 });
 

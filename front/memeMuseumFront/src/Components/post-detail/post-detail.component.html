@@ -1,0 +1,71 @@
+<ng-container *ngIf="{ current: user$ | async } as auth">
+  
+  <div class="main-layout" [class.guest-layout]="!auth.current">
+
+    <main class="feed-container">
+
+      <div *ngIf="isLoading" class="loading-spinner">Loading...</div>
+
+      <div *ngIf="!isLoading && post" class="detail-card">
+        
+        <div class="post-header">
+          <div class="meta-top">
+            <span class="author">u/{{ post.username }}</span>
+            <span class="dot">•</span>
+            <span class="date">{{post.created_at | date:'dd/MM/yyyy HH:mm'}}</span>
+          </div>
+          <h1 class="post-title">{{ post.title }}</h1>
+          
+          <div class="tags-row">
+            <span *ngFor="let tag of parseTags(post.tags!)" class="tag-pill">#{{tag}}</span>
+          </div>
+        </div>
+
+        <div class="post-media-container">
+            <video 
+                *ngIf="isVideo(post.image_path); else detailImage"
+                [src]="getImageUrl(post.image_path)" 
+                controls 
+                autoplay
+                class="media-full">
+                Your browser does not support the video tag.
+            </video>
+
+            <ng-template #detailImage>
+                <img [src]="getImageUrl(post.image_path)" alt="Meme" class="media-full">
+            </ng-template>
+        </div>
+
+        <div class="action-bar">
+            <div class="vote-buttons">
+                <app-vote 
+                    [postId]="post.id" 
+                    [voteSum]="post.vote_sum" 
+                    [userVote]="post.user_vote">
+                </app-vote>
+            </div>
+          
+            <div class="comment-btn">
+                <span>💬 {{ commentCount }} Comments</span>
+            </div>
+
+            <button class="icon-btn share" (click)="share($event)">
+            ↗ Share
+            </button>
+        </div>
+
+          <div class="comments-section">
+            <app-comments 
+            [postId]="post!.id"
+            (countChange)="updateCommentCount($event)"></app-comments>  
+          </div>
+
+      </div>
+    </main>
+
+    <aside class="sidebar-wrapper" *ngIf="auth.current">
+      <app-sidebar [user]="auth.current"></app-sidebar>
+    </aside>
+
+  </div>
+</ng-container>

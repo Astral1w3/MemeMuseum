@@ -1,15 +1,17 @@
+
 .header {
-    background-color: var(--secondary-bg); 
+    background-color: var(--bg-body);
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    box-shadow: 0 2px 8px var(--header-shadow);
+    padding: 0 20px;
+    height: 60px;
     position: sticky;
     top: 0;
     z-index: 1000;
-    width: 100%; //serve a garantire che l'header rimanga sempre visibile sopra quasi tutti gli altri elementi della pagina.
-    box-sizing: border-box; //a CSS property that changes how an element's total width and height are calculated. 
+    width: 100%;
+    backdrop-filter: blur(10px);
 }
 
 .header__left {
@@ -18,49 +20,105 @@
 }
 
 .logo {
-    width: 60px;
-    height: 60px;
-    object-fit: contain; //aspect ratio adjusted to be contained in width and height
-    margin-right: 15px;
-    /* filter: invert(1) brightness(1.5); */
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    &:hover {
+        transform: scale(2);
+        filter: drop-shadow(0 0 5px rgba(139, 92, 246, 0.5));
+    }
+    
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+.brand-title {
+  font-family: 'Bungee', cursive;
+  font-size: 2.5rem;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: 1px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: default;
+  
+  text-shadow: 2px 2px 0px #000000; 
+  
+
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+ 
 }
 
 .header__center {
-    flex-grow: 1; //searchbar takes all the space 
+    flex-grow: 1;
     display: flex;
     justify-content: center;
-    max-width: 600px;
+    max-width: 480px;
     margin: 0 20px;
 }
 
-
-.mat-icon {
-    font-size: 30px;
-    width: 30px;
-    height: 30px;
-    color: #ffff;
-    cursor: pointer;
-    transition: color 0.3s ease, transform 0.2s ease;
+.header__right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
-.mat-icon:hover {
-    transform: scale(1.1);
-}
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .header {
-        flex-wrap: nowrap;
-        justify-content: space-between; /* Better alignment */
-        padding: 15px;
-        gap: 15px;
+    .username {
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        display: none;
+        @media(min-width: 768px) { display: block; }
     }
-
-    .logo { width: 50px; height: 50px; }
 }
 
-@media (max-width: 480px) {
-    .header { padding: 10px; }
-    .logo { width: 45px; height: 45px}
-    .mat-icon { font-size: 28px; width: 28px; height: 28px; }
+.action-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s;
+
+    &:hover {
+        color: #8b5cf6;
+    }
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+    
+    &:hover { color: #ef4444; }
+}
+
+.auth-links {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .header { padding: 0 15px; }
+    .header__center { display: none; }  
+    .brand-title {
+    font-size: 1.5rem;
+  }
 }

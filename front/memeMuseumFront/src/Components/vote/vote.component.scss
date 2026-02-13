@@ -1,0 +1,37 @@
+
+.btn-vote {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  transition: color 0.2s, background-color 0.2s;
+  border-radius: 50%;
+  line-height: 1;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+  }
+
+  &.up.active {
+    color: #ff4500;
+  }
+
+  &.down.active {
+    color: #7193ff;
+  }
+}
+
+.score {
+  font-weight: 700;
+  font-size: 0.9rem;
+  min-width: 20px;
+  text-align: center;
+  color: var(--text-primary);
+  cursor: default;
+
+  &.orange { color: #ff4500; }
+  &.blue   { color: #7193ff; }
+}
