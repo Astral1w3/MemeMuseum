@@ -54,6 +54,9 @@
             </div>
         </div>
         
+        <div *ngIf="errorMessage" class="error-msg" style="color: red; margin-bottom: 10px;">
+            {{ errorMessage }}
+        </div>
         <button type="submit" 
                 class="base-button btn-primary" 
                 [disabled]="loginForm.invalid">

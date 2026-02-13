@@ -1,7 +1,7 @@
+@use '../../styles/shared' as shared;
+
 .detail-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  @include shared.surface-card();
   overflow: hidden;
   margin-bottom: 40px;
 }
@@ -10,8 +10,7 @@
   padding: 16px 20px 10px 20px;
 
   .meta-top {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
+    @include shared.secondary-text(0.85rem);
     margin-bottom: 8px;
     
     .author { font-weight: 600; color: var(--text-primary); }
@@ -97,8 +96,7 @@
   padding: 20px;
 
   .add-comment {
-    border: 1px solid var(--border-subtle);
-    border-radius: 8px;
+    @include shared.subtle-border($radius: 8px);
     padding: 10px;
     margin-bottom: 20px;
 

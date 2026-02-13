@@ -1,8 +1,8 @@
 
+@use '../../styles/shared' as shared;
+
 .card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  @include shared.surface-card();
   overflow: hidden;
   display: flex;
   flex-direction: column;

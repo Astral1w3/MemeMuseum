@@ -1,10 +1,10 @@
 
+@use '../../styles/shared' as shared;
+
 .header {
     background-color: var(--bg-body);
     border-bottom: 1px solid var(--border-subtle);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include shared.flex-row($justify: space-between);
     padding: 0 20px;
     height: 60px;
     position: sticky;
@@ -15,8 +15,7 @@
 }
 
 .header__left {
-    display: flex;
-    align-items: center;
+    @include shared.flex-row();
 }
 
 .logo {
@@ -57,22 +56,17 @@
 
 .header__center {
     flex-grow: 1;
-    display: flex;
-    justify-content: center;
+    @include shared.flex-row($align: stretch, $justify: center);
     max-width: 480px;
     margin: 0 20px;
 }
 
 .header__right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    @include shared.flex-row($gap: 16px);
 }
 
 .user-profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    @include shared.flex-row($gap: 10px);
 
     .username {
         font-weight: 500;
@@ -87,7 +81,7 @@
     font-size: 24px;
     width: 24px;
     height: 24px;
-    color: var(--text-secondary);
+    @include shared.secondary-text();
     cursor: pointer;
     transition: color 0.2s;
 
@@ -99,7 +93,7 @@
 .btn-text {
     background: none;
     border: none;
-    color: var(--text-secondary);
+    @include shared.secondary-text();
     font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;

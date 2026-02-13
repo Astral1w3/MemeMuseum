@@ -1,3 +1,5 @@
+@use '../../styles/shared' as shared;
+
 $glass-bg: rgba(30, 30, 30, 0.6);
 $border-color: rgba(255, 255, 255, 0.1);
 $primary-color: #8b5cf6;
@@ -5,9 +7,7 @@ $text-muted: #aaa;
 
 .upload-container {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include shared.flex-row($justify: center);
   background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
   padding: 20px;
 }
@@ -46,9 +46,7 @@ $text-muted: #aaa;
 .media-column {
   padding: 30px;
   background: rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include shared.flex-row($justify: center);
 
   .drop-zone {
     width: 100%;
@@ -56,10 +54,8 @@ $text-muted: #aaa;
     max-height: 500px;
     border: 2px dashed $border-color;
     border-radius: 16px;
-    display: flex;
+    @include shared.flex-row($justify: center);
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
@@ -83,9 +79,7 @@ $text-muted: #aaa;
         border-radius: 50%;
         background: #333;
         color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        @include shared.flex-row($justify: center);
         font-size: 24px;
         margin: 0 auto 15px;
         transition: 0.3s;
@@ -165,9 +159,7 @@ $text-muted: #aaa;
 
   .actions {
     margin-top: 10px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
+    @include shared.flex-row($align: stretch, $justify: flex-end, $gap: 15px);
 
     button {
       padding: 12px 30px;

@@ -1,0 +1,65 @@
+@mixin surface-card(
+  $background: var(--bg-card),
+  $border-color: var(--border-subtle),
+  $radius: var(--radius-md),
+  $shadow: null
+) {
+  background-color: $background;
+  border: 1px solid $border-color;
+  border-radius: $radius;
+
+  @if $shadow != null {
+    box-shadow: $shadow;
+  }
+}
+
+@mixin subtle-border(
+  $radius: var(--radius-sm),
+  $border-color: var(--border-subtle)
+) {
+  border: 1px solid $border-color;
+  border-radius: $radius;
+}
+
+@mixin field-frame(
+  $background: var(--bg-input),
+  $border-color: var(--border-subtle),
+  $radius: var(--radius-sm),
+  $focus-border: var(--text-accent),
+  $focus-background: null
+) {
+  background-color: $background;
+  @include subtle-border($radius: $radius, $border-color: $border-color);
+  color: var(--text-primary);
+
+  &:focus {
+    outline: none;
+    border-color: $focus-border;
+
+    @if $focus-background != null {
+      background-color: $focus-background;
+    }
+  }
+}
+
+@mixin secondary-text($size: null, $weight: null) {
+  color: var(--text-secondary);
+
+  @if $size != null {
+    font-size: $size;
+  }
+
+  @if $weight != null {
+    font-weight: $weight;
+  }
+}
+
+@mixin flex-row($align: center, $justify: flex-start, $gap: null) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+
+  @if $gap != null {
+    gap: $gap;
+  }
+}

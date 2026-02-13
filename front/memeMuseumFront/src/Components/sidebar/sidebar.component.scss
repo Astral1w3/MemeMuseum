@@ -1,3 +1,5 @@
+@use '../../styles/shared' as shared;
+
 .sidebar-container {
   display: flex;
   flex-direction: column;
@@ -44,12 +46,8 @@
 }
 
 .stats-card {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  @include shared.surface-card();
+  @include shared.flex-row($justify: space-around);
   padding: 12px;
   
   .stat-item {

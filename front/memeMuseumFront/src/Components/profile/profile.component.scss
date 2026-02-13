@@ -1,10 +1,9 @@
 
+@use '../../styles/shared' as shared;
+
 .profile-container {
-    background-color: var(--bg-card);
+    @include shared.surface-card($shadow: var(--shadow-card));
     padding: 40px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-subtle);
-    box-shadow: var(--shadow-card);
     max-width: 600px;
     margin: 40px auto;
     text-align: center;
@@ -26,5 +25,5 @@ label {
     padding: 0;
     margin-bottom: 8px;
     display: block;
-    color: var(--text-secondary);
+    @include shared.secondary-text();
 }

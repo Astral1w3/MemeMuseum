@@ -6,10 +6,9 @@ import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
-     provideRouter(routes),
+     provideRouter(routes, withComponentInputBinding()),
      provideHttpClient(),
       //serve a collegare i dati dell'url alle variabili @input del component
       //fa il binding in automatico es: path: 'post/:id' con @Input() id
-     provideRouter(routes, withComponentInputBinding())
     ]
 };

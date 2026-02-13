@@ -1,3 +1,5 @@
+@use '../../styles/shared' as shared;
+
 
 .comments-wrapper {
   margin-top: 20px;
@@ -19,19 +21,11 @@
 
   textarea {
     width: 100%;
-    background-color: var(--bg-input);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-sm);
-    color: var(--text-primary);
+    @include shared.field-frame();
     padding: 10px;
     font-family: inherit;
     resize: vertical;
     min-height: 80px;
-
-    &:focus {
-      outline: none;
-      border-color: var(--text-accent);
-    }
   }
 
   .form-actions {
@@ -58,8 +52,7 @@
 
 .guest-banner {
   padding: 15px;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
+  @include shared.subtle-border();
   color: var(--text-secondary);
   text-align: center;
   margin-bottom: 25px;

@@ -1,7 +1,11 @@
+@use '../../styles/shared' as shared;
+
 .tags-wrapper {
   background: var(--bg-input, rgba(255, 255, 255, 0.05));
-  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
-  border-radius: 8px;
+  @include shared.subtle-border(
+    $radius: 8px,
+    $border-color: var(--border-subtle, rgba(255, 255, 255, 0.1))
+  );
   padding: 8px;
   display: flex;
   flex-wrap: wrap;

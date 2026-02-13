@@ -1,8 +1,8 @@
+@use '../../styles/shared' as shared;
+
 .not-found-container {
   height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include shared.flex-row($justify: center);
   background-color: #000;
 }
 
@@ -10,8 +10,7 @@
   text-align: center;
   padding: 40px 60px;
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
+  @include shared.subtle-border($radius: 20px, $border-color: rgba(255, 255, 255, 0.1));
   backdrop-filter: blur(5px); 
 }
 

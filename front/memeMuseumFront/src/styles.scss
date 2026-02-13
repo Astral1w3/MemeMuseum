@@ -1,3 +1,5 @@
+@use './styles/shared' as shared;
+
 /* -------------------------------------------------------------------------- */
 /* 1. CSS VARIABLES (BASE THEME)   */
 /* -------------------------------------------------------------------------- */
@@ -149,17 +151,12 @@ ul { list-style: none; }
 
 /* Contenitore Card per Login/Register */
 .auth-container {
-  background-color: var(--bg-card);
+  @include shared.surface-card($shadow: var(--shadow-card));
   padding: 40px;
-  border-radius: var(--radius-md);
   max-width: 450px;
   margin: 60px auto; /* Centrato verticalmente */
   text-align: center;
-  
-  /* Bordo sottile e ombra */
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-card);
-  
+
   /* Linea colorata in alto (Gradient) */
   position: relative;
   overflow: hidden;
@@ -184,10 +181,11 @@ ul { list-style: none; }
 .form-input {
   width: 100%;
   padding: 12px 16px;
-  background-color: var(--bg-input);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
+  @include shared.field-frame(
+    $radius: var(--radius-sm),
+    $focus-border: #8b5cf6,
+    $focus-background: #262626
+  );
   font-size: 1rem;
   transition: border-color 0.2s ease, background-color 0.2s ease;
   font-family: inherit;
@@ -196,11 +194,6 @@ ul { list-style: none; }
     color: #555;
   }
 
-  &:focus {
-    outline: none;
-    border-color: #8b5cf6; /* Viola del brand */
-    background-color: #262626;
-  }
 }
 
 /* Bottoni grandi per Auth */
